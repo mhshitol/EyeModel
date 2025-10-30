@@ -1,13 +1,14 @@
+# modelengine.py
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+# FIXED: import from local files (not from models.*)
 from models.customcnn import CustomCNN
 from models.mobilenetv3 import MobileNetV3
 from models.densenet121 import DenseNet121Medical
 
 def get_model(model_name: str, num_classes: int, pretrained: bool = True, dropout_rate: float = 0.5):
-    
     if model_name == 'customcnn':
         return CustomCNN(num_classes=num_classes)
     elif model_name == "mobilenetv3":
@@ -16,8 +17,6 @@ def get_model(model_name: str, num_classes: int, pretrained: bool = True, dropou
         return DenseNet121Medical(num_classes=num_classes, pretrained=pretrained, dropout_rate=dropout_rate)
     else:
         raise ValueError(f"Model {model_name} is not supported.")
-
-
 
 class FocalLoss(nn.Module):
     """
@@ -40,7 +39,6 @@ class FocalLoss(nn.Module):
             return F_loss.sum()
         else:
             return F_loss
-
 
 class LabelSmoothingLoss(nn.Module):
     """
